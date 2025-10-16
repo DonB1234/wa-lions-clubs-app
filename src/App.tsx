@@ -1,6 +1,6 @@
-// src/App.tsx — React + TypeScript component with expandable cards and slightly indented details
+// src/App.tsx — Working React + TypeScript component with expandable cards
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./index.css";
 
 interface Role {
@@ -85,6 +85,7 @@ const clubs: Club[] = [
 
 const App: React.FC = () => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const toggleExpand = (index: number) => {
     setExpandedIndex(expandedIndex === index ? null : index);
@@ -111,89 +112,97 @@ const App: React.FC = () => {
 
       {/* Club Cards */}
       <main className="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {clubs.map((club, idx) => (
-          <div
-            key={idx}
-            className="border-2 border-red-600 rounded-xl p-4 flex flex-col justify-between transition-all duration-300"
-          >
-            {/* Top Row */}
-            <div className="flex justify-between items-start">
-              <h2 className="text-lg font-semibold text-gray-800 leading-tight">
-                {club.name}
-              </h2>
+        {clubs.map((club, idx) => {
+          const isExpanded = expandedIndex === idx;
+          return (
+            <div
+              key={idx}
+              className="border-2 border-red-600 rounded-xl p-4 flex flex-col justify-between transition-all duration-300"
+            >
+              {/* Top Row */}
+              <div className="flex justify-between items-start">
+                <h2 className="text-lg font-semibold text-gray-800 leading-tight">
+                  {club.name}
+                </h2>
 
-              {/* Right column: Est. + Logo */}
-              <div className="flex flex-col items-center space-y-2">
-                <div className="bg-pink-400 text-white text-xs font-bold rounded-full w-12 h-12 flex flex-col items-center justify-center">
-                  <span>Est.</span>
-                  <span>{club.established}</span>
-                </div>
-                {club.logo && (
-                  <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
-                    <img
-                      src={club.logo}
-                      alt={`${club.name} logo`}
-                      className="object-contain w-full h-full"
-                    />
+                {/* Right column: Est. + Logo */}
+                <div className="flex flex-col items-center space-y-2">
+                  <div className="bg-pink-400 text-white text-xs font-bold rounded-full w-12 h-12 flex flex-col items-center justify-center">
+                    <span>Est.</span>
+                    <span>{club.established}</span>
                   </div>
+                  {club.logo && (
+                    <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
+                      <img
+                        src={club.logo}
+                        alt={`${club.name} logo`}
+                        className="object-contain w-full h-full"
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Basic Info */}
+              <div className="mt-2 space-y-1 text-sm text-gray-700 pl-3">
+                <p>
+                  <span className="font-medium">District:</span> {club.district}
+                </p>
+                <p>
+                  <span className="font-medium">Address:</span> {club.address}
+                </p>
+                <p>
+                  <span className="font-medium">Phone:</span> {club.phone}
+                </p>
+                <p>
+                  <span className="font-medium">Email:</span> {club.email}
+                </p>
+                {club.website && (
+                  <p>
+                    <span className="font-medium">Website:</span>{" "}
+                    <a
+                      href={club.website}
+                      className="text-blue-500 hover:underline"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {club.website}
+                    </a>
+                  </p>
                 )}
               </div>
-            </div>
 
-            {/* Basic Info with slight left indent */}
-            <div className="mt-2 space-y-1 text-sm text-gray-700 pl-3">
-              <p>
-                <span className="font-medium">District:</span> {club.district}
-              </p>
-              <p>
-                <span className="font-medium">Address:</span> {club.address}
-              </p>
-              <p>
-                <span className="font-medium">Phone:</span> {club.phone}
-              </p>
-              <p>
-                <span className="font-medium">Email:</span> {club.email}
-              </p>
-              {club.website && (
-                <p>
-                  <span className="font-medium">Website:</span>{" "}
-                  <a
-                    href={club.website}
-                    className="text-blue-500 hover:underline"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {club.website}
-                  </a>
-                </p>
-              )}
-            </div>
+              {/* View Details Button */}
+              <div className="mt-3 flex justify-center">
+                <button
+                  className="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md"
+                  onClick={() => toggleExpand(idx)}
+                >
+                  {isExpanded ? "Hide Details" : "View Details"}
+                </button>
+              </div>
 
-            {/* View Details Button */}
-            <div className="mt-3 flex justify-center">
-              <button
-                className="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md"
-                onClick={() => toggleExpand(idx)}
+              {/* Expanded Roles */}
+              <div
+                ref={(el) => (contentRefs.current[idx] = el)}
+                style={{
+                  maxHeight: isExpanded
+                    ? contentRefs.current[idx]?.scrollHeight
+                    : 0,
+                  overflow: "hidden",
+                  transition: "max-height 0.3s ease",
+                }}
+                className="mt-3 text-sm text-gray-700 pl-3"
               >
-                {expandedIndex === idx ? "Hide Details" : "View Details"}
-              </button>
-            </div>
-
-            {/* Expanded Roles Section with slight left indent */}
-            <div
-              className={`mt-3 text-sm text-gray-700 transition-all duration-300 overflow-hidden pl-3 ${
-                expandedIndex === idx ? "max-h-96" : "max-h-0"
-              }`}
-            >
-              {expandedIndex === idx &&
-                club.roles?.map((role, rIdx) => (
+                {club.roles?.map((role, rIdx) => (
                   <p key={rIdx}>
                     <span className="font-medium">{role.title}:</span> {role.name}
                   </p>
                 ))}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </main>
     </div>
   );
