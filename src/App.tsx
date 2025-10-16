@@ -1,4 +1,4 @@
-// src/App.tsx — React + TypeScript component with expandable club cards
+// src/App.tsx — React + TypeScript component with expandable cards and slightly indented details
 
 import React, { useState } from "react";
 import "./index.css";
@@ -110,11 +110,11 @@ const App: React.FC = () => {
       </header>
 
       {/* Club Cards */}
-      <main className="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+      <main className="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-2 gap-6">
         {clubs.map((club, idx) => (
           <div
             key={idx}
-            className="border-2 border-red-600 rounded-xl p-4 flex flex-col justify-between"
+            className="border-2 border-red-600 rounded-xl p-4 flex flex-col justify-between transition-all duration-300"
           >
             {/* Top Row */}
             <div className="flex justify-between items-start">
@@ -140,8 +140,8 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            {/* Basic Info */}
-            <div className="mt-2 space-y-1 text-sm text-gray-700">
+            {/* Basic Info with slight left indent */}
+            <div className="mt-2 space-y-1 text-sm text-gray-700 pl-3">
               <p>
                 <span className="font-medium">District:</span> {club.district}
               </p>
@@ -170,7 +170,7 @@ const App: React.FC = () => {
             </div>
 
             {/* View Details Button */}
-            <div className="mt-3 flex justify-end">
+            <div className="mt-3 flex justify-center">
               <button
                 className="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md"
                 onClick={() => toggleExpand(idx)}
@@ -179,16 +179,19 @@ const App: React.FC = () => {
               </button>
             </div>
 
-            {/* Expanded Roles Section */}
-            {expandedIndex === idx && club.roles && (
-              <div className="mt-3 border-t border-gray-300 pt-2 text-sm text-gray-700 space-y-1">
-                {club.roles.map((role, rIdx) => (
+            {/* Expanded Roles Section with slight left indent */}
+            <div
+              className={`mt-3 text-sm text-gray-700 transition-all duration-300 overflow-hidden pl-3 ${
+                expandedIndex === idx ? "max-h-96" : "max-h-0"
+              }`}
+            >
+              {expandedIndex === idx &&
+                club.roles?.map((role, rIdx) => (
                   <p key={rIdx}>
                     <span className="font-medium">{role.title}:</span> {role.name}
                   </p>
                 ))}
-              </div>
-            )}
+            </div>
           </div>
         ))}
       </main>
