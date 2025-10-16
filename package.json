@@ -4,13 +4,16 @@
   "private": true,
   "type": "module",
   "description": "Lions Clubs WA — Find local clubs and volunteer opportunities.",
+  "homepage": "https://DonB1234.github.io/wa-lions-clubs-app",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
-    "lint:fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix"
+    "lint:fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -25,6 +28,7 @@
     "eslint": "^8.57.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.0",
+    "gh-pages": "^6.3.0",
     "typescript": "^5.2.2",
     "vite": "^5.0.0"
   },
@@ -36,7 +40,10 @@
     "wa",
     "vite",
     "react",
-    "typescript"
+    "typescript",
+    "community",
+    "volunteering",
+    "western-australia"
   ],
   "author": "Don Barba",
   "license": "MIT"

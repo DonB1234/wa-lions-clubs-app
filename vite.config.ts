@@ -1,16 +1,24 @@
-// vite.config.ts — Vite config for React + TypeScript
+// vite.config.ts — Vite config for React + TypeScript, GitHub Pages ready
 
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: "/wa-lions-clubs-app/", // Update this if hosted in GitHub Pages under a different repo name
+  
+  // Use relative paths for assets so GitHub Pages loads JS/CSS/images correctly
+  base: "./",
+
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"), // Allows using "@/..." to import from src
+      "@": path.resolve(__dirname, "src"),
     },
+  },
+
+  build: {
+    outDir: "docs",       // Build output goes to 'docs' folder for GitHub Pages
+    emptyOutDir: true,    // Clears 'docs' folder before each build
+    assetsDir: "assets",  // Optional: put JS/CSS/images inside docs/assets
   },
 });
