@@ -1,4 +1,4 @@
-// src/App.tsx — Updated React + TypeScript with expandable club details
+// src/App.tsx — React + TypeScript component with expandable cards
 
 import React, { useState } from "react";
 import "./index.css";
@@ -12,15 +12,9 @@ interface Club {
   website?: string;
   established: string;
   logo?: string;
-  roles?: {
-    president: string;
-    secretary: string;
-    treasurer: string;
-    members: string[];
-  };
+  roles?: { title: string; name: string }[]; // Roles to show when expanded
 }
 
-// Sample club data with roles
 const clubs: Club[] = [
   {
     name: "South Perth Lions Club",
@@ -31,12 +25,11 @@ const clubs: Club[] = [
     website: "https://southperthlions.org.au",
     established: "1961",
     logo: "/logos/southperth.png",
-    roles: {
-      president: "John Doe",
-      secretary: "Jane Smith",
-      treasurer: "Paul Johnson",
-      members: ["Alice", "Bob", "Charlie"],
-    },
+    roles: [
+      { title: "President", name: "Alice Smith" },
+      { title: "Secretary", name: "Bob Johnson" },
+      { title: "Treasurer", name: "Carol White" },
+    ],
   },
   {
     name: "Fremantle Lions Club",
@@ -47,27 +40,49 @@ const clubs: Club[] = [
     website: "https://fremantlelions.org.au",
     established: "1958",
     logo: "/logos/fremantle.png",
-    roles: {
-      president: "Mary Lee",
-      secretary: "Tom Brown",
-      treasurer: "Sara White",
-      members: ["Liam", "Noah", "Emma"],
-    },
+    roles: [
+      { title: "President", name: "David Lee" },
+      { title: "Secretary", name: "Emma Brown" },
+      { title: "Treasurer", name: "Frank Green" },
+    ],
   },
-  // Add more clubs as needed
+  {
+    name: "Canning City Lions Club",
+    district: "District 201W2",
+    address: "Cannington Exhibition Centre, Cannington WA",
+    phone: "0415 987 234",
+    email: "info@canningcitylions.org.au",
+    website: "https://canningcitylions.org.au",
+    established: "1967",
+    logo: "/logos/canningcity.png",
+    roles: [
+      { title: "President", name: "Grace Hall" },
+      { title: "Secretary", name: "Henry King" },
+      { title: "Treasurer", name: "Ivy Scott" },
+    ],
+  },
+  {
+    name: "Applecross Lions Club",
+    district: "District 201W2",
+    address: "Applecross Community Hall, Applecross WA",
+    phone: "0417 654 321",
+    email: "info@applecrosslions.org.au",
+    website: "https://applecrosslions.org.au",
+    established: "1963",
+    logo: "/logos/applecross.png",
+    roles: [
+      { title: "President", name: "Jack Wilson" },
+      { title: "Secretary", name: "Karen Young" },
+      { title: "Treasurer", name: "Leo Harris" },
+    ],
+  },
 ];
 
 const App: React.FC = () => {
-  // Track which club cards are expanded
-  const [expandedCards, setExpandedCards] = useState<boolean[]>(
-    Array(clubs.length).fill(false)
-  );
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
-  // Toggle expand/collapse
   const toggleExpand = (index: number) => {
-    const newExpanded = [...expandedCards];
-    newExpanded[index] = !newExpanded[index];
-    setExpandedCards(newExpanded);
+    setExpandedIndex(expandedIndex === index ? null : index);
   };
 
   return (
@@ -96,7 +111,7 @@ const App: React.FC = () => {
             key={idx}
             className="border-2 border-red-600 rounded-xl p-4 flex flex-col justify-between"
           >
-            {/* Top Row: Club Name + Right Column */}
+            {/* Top Row */}
             <div className="flex justify-between items-start">
               <h2 className="text-lg font-semibold text-gray-800 leading-tight">
                 {club.name}
@@ -120,7 +135,7 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            {/* Info Section */}
+            {/* Basic Info */}
             <div className="mt-2 space-y-1 text-sm text-gray-700">
               <p>
                 <span className="font-medium">District:</span> {club.district}
@@ -140,53 +155,3 @@ const App: React.FC = () => {
                   <a
                     href={club.website}
                     className="text-blue-500 hover:underline"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {club.website}
-                  </a>
-                </p>
-              )}
-            </div>
-
-            {/* Expandable Roles Section */}
-            {expandedCards[idx] && club.roles && (
-              <div className="mt-2 p-2 bg-gray-50 border-t border-gray-200 rounded-b">
-                <p>
-                  <span className="font-medium">President:</span>{" "}
-                  {club.roles.president}
-                </p>
-                <p>
-                  <span className="font-medium">Secretary:</span>{" "}
-                  {club.roles.secretary}
-                </p>
-                <p>
-                  <span className="font-medium">Treasurer:</span>{" "}
-                  {club.roles.treasurer}
-                </p>
-                <p className="font-medium">Members:</p>
-                <ul className="list-disc list-inside ml-4">
-                  {club.roles.members.map((member, mIdx) => (
-                    <li key={mIdx}>{member}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* View Details Button */}
-            <div className="mt-3 flex justify-end">
-              <button
-                className="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-none hover:bg-red-700 transition-colors"
-                onClick={() => toggleExpand(idx)}
-              >
-                {expandedCards[idx] ? "Hide Details" : "View Details"}
-              </button>
-            </div>
-          </div>
-        ))}
-      </main>
-    </div>
-  );
-};
-
-export default App;
