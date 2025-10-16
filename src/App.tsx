@@ -1,6 +1,6 @@
-// src/App.tsx — Cleaned React + TypeScript component
+// src/App.tsx — Updated React + TypeScript with expandable club details
 
-import React from "react";
+import React, { useState } from "react";
 import "./index.css";
 
 interface Club {
@@ -12,8 +12,15 @@ interface Club {
   website?: string;
   established: string;
   logo?: string;
+  roles?: {
+    president: string;
+    secretary: string;
+    treasurer: string;
+    members: string[];
+  };
 }
 
+// Sample club data with roles
 const clubs: Club[] = [
   {
     name: "South Perth Lions Club",
@@ -24,6 +31,12 @@ const clubs: Club[] = [
     website: "https://southperthlions.org.au",
     established: "1961",
     logo: "/logos/southperth.png",
+    roles: {
+      president: "John Doe",
+      secretary: "Jane Smith",
+      treasurer: "Paul Johnson",
+      members: ["Alice", "Bob", "Charlie"],
+    },
   },
   {
     name: "Fremantle Lions Club",
@@ -34,30 +47,29 @@ const clubs: Club[] = [
     website: "https://fremantlelions.org.au",
     established: "1958",
     logo: "/logos/fremantle.png",
+    roles: {
+      president: "Mary Lee",
+      secretary: "Tom Brown",
+      treasurer: "Sara White",
+      members: ["Liam", "Noah", "Emma"],
+    },
   },
-  {
-    name: "Canning City Lions Club",
-    district: "District 201W2",
-    address: "Cannington Exhibition Centre, Cannington WA",
-    phone: "0415 987 234",
-    email: "info@canningcitylions.org.au",
-    website: "https://canningcitylions.org.au",
-    established: "1967",
-    logo: "/logos/canningcity.png",
-  },
-  {
-    name: "Applecross Lions Club",
-    district: "District 201W2",
-    address: "Applecross Community Hall, Applecross WA",
-    phone: "0417 654 321",
-    email: "info@applecrosslions.org.au",
-    website: "https://applecrosslions.org.au",
-    established: "1963",
-    logo: "/logos/applecross.png",
-  },
+  // Add more clubs as needed
 ];
 
 const App: React.FC = () => {
+  // Track which club cards are expanded
+  const [expandedCards, setExpandedCards] = useState<boolean[]>(
+    Array(clubs.length).fill(false)
+  );
+
+  // Toggle expand/collapse
+  const toggleExpand = (index: number) => {
+    const newExpanded = [...expandedCards];
+    newExpanded[index] = !newExpanded[index];
+    setExpandedCards(newExpanded);
+  };
+
   return (
     <div className="min-h-screen bg-white flex flex-col items-center p-4 sm:p-6">
       {/* Header */}
@@ -137,10 +149,37 @@ const App: React.FC = () => {
               )}
             </div>
 
+            {/* Expandable Roles Section */}
+            {expandedCards[idx] && club.roles && (
+              <div className="mt-2 p-2 bg-gray-50 border-t border-gray-200 rounded-b">
+                <p>
+                  <span className="font-medium">President:</span>{" "}
+                  {club.roles.president}
+                </p>
+                <p>
+                  <span className="font-medium">Secretary:</span>{" "}
+                  {club.roles.secretary}
+                </p>
+                <p>
+                  <span className="font-medium">Treasurer:</span>{" "}
+                  {club.roles.treasurer}
+                </p>
+                <p className="font-medium">Members:</p>
+                <ul className="list-disc list-inside ml-4">
+                  {club.roles.members.map((member, mIdx) => (
+                    <li key={mIdx}>{member}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             {/* View Details Button */}
             <div className="mt-3 flex justify-end">
-              <button className="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-none">
-                View Details
+              <button
+                className="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-none hover:bg-red-700 transition-colors"
+                onClick={() => toggleExpand(idx)}
+              >
+                {expandedCards[idx] ? "Hide Details" : "View Details"}
               </button>
             </div>
           </div>
