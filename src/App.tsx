@@ -1,7 +1,12 @@
-// src/App.tsx — React + TypeScript component with expandable cards
+// src/App.tsx — React + TypeScript component with expandable club cards
 
 import React, { useState } from "react";
 import "./index.css";
+
+interface Role {
+  title: string;
+  name: string;
+}
 
 interface Club {
   name: string;
@@ -12,7 +17,7 @@ interface Club {
   website?: string;
   established: string;
   logo?: string;
-  roles?: { title: string; name: string }[]; // Roles to show when expanded
+  roles?: Role[];
 }
 
 const clubs: Club[] = [
@@ -155,3 +160,40 @@ const App: React.FC = () => {
                   <a
                     href={club.website}
                     className="text-blue-500 hover:underline"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {club.website}
+                  </a>
+                </p>
+              )}
+            </div>
+
+            {/* View Details Button */}
+            <div className="mt-3 flex justify-end">
+              <button
+                className="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md"
+                onClick={() => toggleExpand(idx)}
+              >
+                {expandedIndex === idx ? "Hide Details" : "View Details"}
+              </button>
+            </div>
+
+            {/* Expanded Roles Section */}
+            {expandedIndex === idx && club.roles && (
+              <div className="mt-3 border-t border-gray-300 pt-2 text-sm text-gray-700 space-y-1">
+                {club.roles.map((role, rIdx) => (
+                  <p key={rIdx}>
+                    <span className="font-medium">{role.title}:</span> {role.name}
+                  </p>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </main>
+    </div>
+  );
+};
+
+export default App;
