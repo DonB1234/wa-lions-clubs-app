@@ -1,4 +1,4 @@
-// src/App.tsx — React + TypeScript with perfectly aligned red icons
+// src/App.tsx — Fully corrected React + TypeScript with all requested features
 
 import React, { useState } from "react";
 import "./index.css";
@@ -21,7 +21,66 @@ interface Club {
 }
 
 const clubs: Club[] = [
-  // ... same clubs array as before ...
+  {
+    name: "South Perth Lions Club",
+    district: "District 201W2",
+    address: "South Perth Community Centre, South Perth WA",
+    phone: "0412 345 678",
+    email: "info@southperthlions.org.au",
+    website: "https://southperthlions.org.au",
+    established: "1961",
+    logo: "/logos/southperth.png",
+    roles: [
+      { title: "President", name: "Alice Smith" },
+      { title: "Secretary", name: "Bob Johnson" },
+      { title: "Treasurer", name: "Carol White" },
+    ],
+  },
+  {
+    name: "Fremantle Lions Club",
+    district: "District 201W2",
+    address: "Fremantle Hall, Fremantle WA",
+    phone: "0413 555 789",
+    email: "contact@fremantlelions.org.au",
+    website: "https://fremantlelions.org.au",
+    established: "1958",
+    logo: "/logos/fremantle.png",
+    roles: [
+      { title: "President", name: "David Lee" },
+      { title: "Secretary", name: "Emma Brown" },
+      { title: "Treasurer", name: "Frank Green" },
+    ],
+  },
+  {
+    name: "Canning City Lions Club",
+    district: "District 201W2",
+    address: "Cannington Exhibition Centre, Cannington WA",
+    phone: "0415 987 234",
+    email: "info@canningcitylions.org.au",
+    website: "https://canningcitylions.org.au",
+    established: "1967",
+    logo: "/logos/canningcity.png",
+    roles: [
+      { title: "President", name: "Grace Hall" },
+      { title: "Secretary", name: "Henry King" },
+      { title: "Treasurer", name: "Ivy Scott" },
+    ],
+  },
+  {
+    name: "Applecross Lions Club",
+    district: "District 201W2",
+    address: "Applecross Community Hall, Applecross WA",
+    phone: "0417 654 321",
+    email: "info@applecrosslions.org.au",
+    website: "https://applecrosslions.org.au",
+    established: "1963",
+    logo: "/logos/applecross.png",
+    roles: [
+      { title: "President", name: "Jack Wilson" },
+      { title: "Secretary", name: "Karen Young" },
+      { title: "Treasurer", name: "Leo Harris" },
+    ],
+  },
 ];
 
 const App: React.FC = () => {
@@ -31,17 +90,17 @@ const App: React.FC = () => {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
 
-  // Perfectly aligned red circle icon
+  // Small red circle icon
   const Icon = () => (
-    <span className="inline-block w-2.5 h-2.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+    <span className="inline-block w-2 h-2 bg-red-600 rounded-full mr-2 mt-1"></span>
   );
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center p-4 sm:p-6">
       {/* Header */}
-      <header className="w-full max-w-5xl flex flex-col sm:flex-row items-center justify-between mb-4 sm:mb-6">
+      <header className="w-full max-w-5xl flex flex-col sm:flex-row items-center justify-between mb-6">
         <div className="text-center sm:text-left">
-          <h1 className="text-2xl sm:text-3xl font-bold text-blue-600 tracking-wide">
+          <h1 className="text-3xl font-bold text-blue-600 tracking-wide">
             LIONS CLUBS WA
           </h1>
           <p className="text-gray-500 text-sm mt-1">© Don Barba 2025</p>
@@ -60,7 +119,7 @@ const App: React.FC = () => {
         {clubs.map((club, idx) => (
           <div
             key={idx}
-            className="border-2 border-red-600 rounded-xl p-4 flex flex-col justify-between transition-all duration-300 bg-white shadow"
+            className="border-2 border-red-600 rounded-xl p-4 flex flex-col justify-between transition-all duration-300"
           >
             {/* Top Row */}
             <div className="flex justify-between items-start">
@@ -84,28 +143,28 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            {/* Basic Info with reduced spacing */}
+            {/* Club Info */}
             <div className="mt-2 text-sm text-gray-700 pl-3 space-y-1">
-              <p className="flex items-center">
+              <p className="flex items-start">
                 <Icon />
-                <span className="font-medium mr-1">District:</span> {club.district}
+                <span className="font-medium">District:</span> {club.district}
               </p>
-              <p className="flex items-center">
+              <p className="flex items-start">
                 <Icon />
-                <span className="font-medium mr-1">Address:</span> {club.address}
+                <span className="font-medium">Address:</span> {club.address}
               </p>
-              <p className="flex items-center">
+              <p className="flex items-start">
                 <Icon />
-                <span className="font-medium mr-1">Phone:</span> {club.phone}
+                <span className="font-medium">Phone:</span> {club.phone}
               </p>
-              <p className="flex items-center">
+              <p className="flex items-start">
                 <Icon />
-                <span className="font-medium mr-1">Email:</span> {club.email}
+                <span className="font-medium">Email:</span> {club.email}
               </p>
               {club.website && (
-                <p className="flex items-center">
+                <p className="flex items-start">
                   <Icon />
-                  <span className="font-medium mr-1">Website:</span>
+                  <span className="font-medium">Website:</span>{" "}
                   <a
                     href={club.website}
                     className="text-blue-500 hover:underline"
@@ -121,14 +180,14 @@ const App: React.FC = () => {
             {/* View Details Button */}
             <div className="mt-3 flex justify-center">
               <button
-                className="px-12 py-2 bg-red-600 text-white text-sm font-medium rounded-md w-full max-w-xs"
+                className="px-8 py-2 w-full sm:w-64 bg-red-600 text-white font-medium rounded-md"
                 onClick={() => toggleExpand(idx)}
               >
                 {expandedIndex === idx ? "Hide Details" : "View Details"}
               </button>
             </div>
 
-            {/* Expanded Roles */}
+            {/* Expanded Roles Section */}
             <div
               className={`mt-3 text-sm text-gray-700 transition-all duration-300 overflow-hidden pl-3 space-y-1 ${
                 expandedIndex === idx ? "max-h-96" : "max-h-0"
@@ -136,9 +195,9 @@ const App: React.FC = () => {
             >
               {expandedIndex === idx &&
                 club.roles?.map((role, rIdx) => (
-                  <p key={rIdx} className="flex items-center">
+                  <p key={rIdx} className="flex items-start">
                     <Icon />
-                    <span className="font-medium mr-1">{role.title}:</span> {role.name}
+                    <span className="font-medium">{role.title}:</span> {role.name}
                   </p>
                 ))}
             </div>
