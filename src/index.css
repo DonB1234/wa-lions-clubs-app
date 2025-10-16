@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -48,4 +49,42 @@ body {
   color: white;
   padding: 5px 0;
   border-radius: 5px;
+=======
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: sans-serif;
+  background-color: #f1f5f9;
+  color: #1e293b; /* Default text color for body */
+}
+
+/* Let Tailwind handle colors for headings */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  color: inherit; /* Prevent overriding Tailwind text colors */
+}
+
+p {
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: underline;
+  color: #dc2626;
+  transition: color 0.2s;
+}
+a:hover {
+  color: #b91c1c;
+}
+
+button {
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s;
+>>>>>>> origin/main
 }
